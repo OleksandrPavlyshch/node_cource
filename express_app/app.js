@@ -11,6 +11,7 @@ const publickDirectoryPath = path.join(__dirname, './public');
 const stemplatesPath = path.join(__dirname, "./templates");
 const partialPath = path.join(__dirname, "./templates/partials");
 const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(express.static(publickDirectoryPath));
 
@@ -76,6 +77,6 @@ app.get("*", (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log('Server is running');
-})
+app.listen(port, () => {
+    console.log("Server is running");
+});
