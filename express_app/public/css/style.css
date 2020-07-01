@@ -1,0 +1,39 @@
+h1 {
+    color: gray;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    padding: 1em;
+}
+
+header {
+    padding: 1em;
+    border-bottom: 1px solid #000;
+    background-color: #666666;
+    color: #fff;
+}
+
+header h1,
+header a {
+    color: #fff;
+}
+
+footer {
+    padding: 1em;
+    border-top: 1px solid #000;
+    background-color: #666666;
+    color: #fff;
+}
