@@ -10,9 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "console-png": "^1.2.1",
-    "console.image": "^1.0.2",
-    "https": "^1.0.0",
-    "postman-request": "^2.88.1-postman.22"
+    "request": "^2.88.0"
   }
 }

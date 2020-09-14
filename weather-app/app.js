@@ -1,16 +1,23 @@
-const request = require("postman-request");
-const key = "eeccb0dbd5d6e7863c8810249cbdbc18";
-const location = "Kiev";
+const geocode = require('./utils/geocode')
+const forecast = require('./utils/forecast')
 
+const address = process.argv[2]
 
-const url = `http://api.weatherstack.com/current?access_key=${key}&query=${location}&units=m`;
-const weatherMessage = (data) => {
-    console.log(JSON.parse(data));
-    const {temperature, feelslike, precip } = JSON.parse(data).current;
-    const message = `It is currentl ${temperature}. It feels like ${feelslike}. There is ${precip * 100}% chanse to rain.`;
-    console.log(message);
+if (!address) {
+    console.log('Please provide an address')
+} else {
+    geocode(address, (error, { latitude, longitude, location }) => {
+        if (error) {
+            return console.log(error)
+        }
+
+        forecast(latitude, longitude, (error, forecastData) => {
+            if (error) {
+                return console.log(error)
+            }
+
+            console.log(location)
+            console.log(forecastData)
+        })
+    })
 }
-
-request(url, function (error, response, body) {
-    weatherMessage(body);
-});
