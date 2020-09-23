@@ -14,6 +14,7 @@ const upload = multer({
         cb(null, true)
     },
 });
+const { sendWelcomEmail, sendCancelationEmail } = require("../emails/accounts");
 
 const sharp = require('sharp')
 
@@ -35,6 +36,7 @@ router.post('/users', async (req, res) => {
 
     try {
         await user.save()
+        sendWelcomEmail(user.email, user.name);
         const token = await user.generateAuthToken();
         res.status(201).send({user, token});
     } catch (e) {
@@ -46,7 +48,6 @@ router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
-        console.log(user)
         res.send({user, token})
     } catch (error) {
         console.log(error, "user err");
@@ -105,6 +106,7 @@ router.patch("/users/me", auth, async (req, res) => {
 router.delete('/users/me', auth, async (req, res) => {
     try {
         await req.user.remove()
+        sendCancelationEmail(req.user.email, req.user.name);
         res.send(req.user)
     } catch (e) {
         res.status(500).send()
@@ -124,7 +126,6 @@ router.delete("/users/me/avatar", auth, async (req, res) => {
 router.get("/users/:id/avatar", async (req, res) => {
     try {
         const user = await User.findById(req.params.id)
-        console.log(user.avatar, "get avatar");
 
         if (!user || !user.avatar) {
             throw new Error()
